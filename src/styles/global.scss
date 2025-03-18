@@ -3,9 +3,9 @@
 // IMPORT 
 
 // VARIABLES 
-$color1: #000;
-$color2: #50c878a2;
-$color3: #7fa26d;
+$color1: #E9FEFF;
+$color2: #0E32D6;
+$color3: #11182F;
 $fontColor: #797878;
 $font1: 'Montserrat';
 $font_size: 1.1vw;
@@ -66,6 +66,17 @@ $mfont_size: 5vw;
       display: flex;
       flex-direction: column;
       flex-grow: -1;
+    }
+  }
+}
+
+@mixin background($gradientMask, $url, $maskColor1, $maskColor2, $opacity) {
+  @if $gradientMask ==true {
+    $rgba_color1: rgba(red($maskColor1), green($maskColor1), blue($maskColor1), $opacity);
+    $rgba_color2: rgba(red($maskColor2), green($maskColor2), blue($maskColor2), $opacity);
+
+    & {
+      background: linear-gradient($rgba_color1, $rgba_color2), url($url);
     }
   }
 }
@@ -198,7 +209,6 @@ nav {
 
 h2{
   text-transform: uppercase;
-  text-shadow: 0 0 3px #000;
   cursor: default;
 }
 
