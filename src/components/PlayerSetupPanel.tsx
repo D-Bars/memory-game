@@ -10,15 +10,18 @@ import { useUserStatsStore } from '../store/userStatsStore';
 const PlayerSetupPanel = () => {
     const [userNickname, setUserNickname] = useState<string>('');
     const [level, setLevel] = useState<string>('');
-    const { startGame } = useGameStore();
+    const [selectedCardCount, setSelectedCardCount] = useState<number>(0);
+    const { startGame, setCardCount } = useGameStore();
 
-    const chosenLevel = (userLevel: string) => {
+    const chosenLevel = (userLevel: string, count: number) => {
         setLevel(userLevel);
+        setSelectedCardCount(count);
     }
 
     const handleStart = () => {
         useUserStatsStore.getState().setNickname(userNickname);
         useUserStatsStore.getState().setDifficultLevel(level);
+        setCardCount(selectedCardCount);
         startGame();
     }
 

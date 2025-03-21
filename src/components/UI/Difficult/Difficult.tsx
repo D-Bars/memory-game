@@ -4,13 +4,13 @@ import cl from './Difficult.module.scss';
 interface DifficultProps{
     cardCount: number,
     children: string,
-    onClick: (level: string) => void;
+    onClick: (level: string, count: number) => void;
     isActive: boolean;
 }
 
 const Difficult: FC<DifficultProps> = ({cardCount, children, onClick, isActive}) => {
     const handleClick = () => {
-        onClick(children); 
+        onClick(children, cardCount); 
       };
     return (
         <div
