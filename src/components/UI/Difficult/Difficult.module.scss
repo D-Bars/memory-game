@@ -1,0 +1,20 @@
+@use '../../../styles/global.scss' as *;
+
+
+.level {
+    border-radius: 5px;
+    padding: 1vh 5%;
+    background-color: rgba($color3, 0.7);
+    outline: 2px solid #FFF0;
+    outline-offset: -2px;
+    cursor: pointer;
+    transition: .4s;
+
+    @include text(110%, 600, $color1);
+
+    &:hover {
+        background-color: $color3;
+        transform: scale(1.1);
+        outline: 2px solid $color2;
+    }
+}
