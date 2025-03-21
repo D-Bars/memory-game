@@ -1,27 +1,23 @@
 import { create } from "zustand";
-
-interface Card {
-    id: number;
-    image: string;
-    uniqueId: string;
-    isFlipped: boolean;
-    isMatched: boolean;
-}
+import { Card } from "../types/Card";
+import { Difficulty } from "../types/Difficulty";
 
 interface gameState {
     cards: Card[];
+    difficulties: Difficulty[];
     attempts: number;
     timer: number;
-    startGame: (cards: Card[]) => void;
+    setCards: (cards: Card[]) => void;
     incrementAttempts: () => void;
     resetGame: () => void;
 }
 
 export const useGameStore = create<gameState>((set) => ({
     cards: [],
+    difficulties: [],
     attempts: 0,
     timer: 0,
-    startGame: (cards) => set({cards}),
-    incrementAttempts: () => set((state) => ({ attempts: state.attempts + 1})),
-    resetGame: () => set({cards: [], attempts: 0, timer: 0})
-}))
+    setCards: (cards) => set({ cards }),
+    incrementAttempts: () => set((state) => ({ attempts: state.attempts + 1 })),
+    resetGame: () => set({ cards: [], attempts: 0, timer: 0 }),
+}));
