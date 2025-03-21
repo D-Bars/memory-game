@@ -4,13 +4,15 @@ import { useGameStore } from "./store/gameStore";
 import { GenerateCardsArray } from "./utils/GenerateCardsArray"
 
 function App() {
+  const {isGameStart, setCards} = useGameStore();
+
   useEffect(() => {
     const cardArray = GenerateCardsArray();
-    useGameStore.getState().setCards(cardArray);
+    setCards(cardArray);
   }, []);
   return (
     <div>
-      <PlayerSetupPanel></PlayerSetupPanel>
+      {isGameStart ? <div>Game started</div> : <PlayerSetupPanel></PlayerSetupPanel> }
     </div>
   )
 }

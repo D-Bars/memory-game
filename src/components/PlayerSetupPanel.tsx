@@ -5,14 +5,21 @@ import InputLabel from './UI/InputLabel/InputLabel';
 import BlickButton from './UI/BlickButton/BlickButton';
 import { useGameStore } from '../store/gameStore';
 import { getDifficultyLevels } from '../utils/getDifficultyLevels';
+import { useUserStatsStore } from '../store/userStatsStore';
 
 const PlayerSetupPanel = () => {
     const [userNickname, setUserNickname] = useState<string>('');
     const [level, setLevel] = useState<string>('');
-    const {startGame} = useGameStore();
+    const { startGame } = useGameStore();
 
-    const chosenLevel = (userLevel:string) => {
+    const chosenLevel = (userLevel: string) => {
         setLevel(userLevel);
+    }
+
+    const handleStart = () => {
+        useUserStatsStore.getState().setNickname(userNickname);
+        useUserStatsStore.getState().setDifficultLevel(level);
+        startGame();
     }
 
     const difficulty = getDifficultyLevels();
@@ -47,7 +54,7 @@ const PlayerSetupPanel = () => {
                         ))}
                     </div>
                 </div>
-                <BlickButton disabled={isStartDisabled} onClick={()=> startGame()}>Start Game</BlickButton>
+                <BlickButton disabled={isStartDisabled} onClick={handleStart}>Start Game</BlickButton>
             </div>
         </div>
     );
