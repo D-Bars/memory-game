@@ -3,6 +3,7 @@ import cl from './styles/PlayerSetupPanel.module.scss';
 import { Difficulty } from '../types/Difficulty';
 import Difficult from './UI/Difficult/Difficult';
 import InputLabel from './UI/InputLabel/InputLabel';
+import BlickButton from './UI/BlickButton/BlickButton';
 
 const PlayerSetupPanel = () => {
     const [userNickname, setUserNickname] = useState<string>('');
@@ -51,7 +52,7 @@ const PlayerSetupPanel = () => {
                         ))}
                     </div>
                 </div>
-                <button disabled={isStartDisabled} onClick={startGame}>Start Game</button>
+                <BlickButton disabled={isStartDisabled} onClick={startGame}>Start Game</BlickButton>
             </div>
         </div>
     );

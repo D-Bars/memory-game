@@ -31,6 +31,7 @@
 
 .window_container {
     position: relative;
+    text-align: center;
     gap: 8vh;
     padding: 5vh 2.5%;
     outline: 2px solid #FFF9;
@@ -71,26 +72,4 @@
 .levels_box {
     @include box(100%, 2.5%);
     @include flex__box(row, center, space-between);
-}
-
-button {
-    background-color: $color3;
-    padding: 1vh 2vw;
-    outline: 1px solid #000;
-    outline-offset: -1px;
-    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    transition: transform .2s , box-shadow .2s , background-color .4s;
-
-    @include text(120%, 600, $color1);
-
-    &:disabled {
-        background-color: rgba($color3, 0.7);
-        cursor: not-allowed;
-    }
-
-    &:not(:disabled):active {
-        transform: scale(0.95);
-        box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
-    }
 }

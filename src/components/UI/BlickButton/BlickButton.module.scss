@@ -1,0 +1,52 @@
+@use '../../../styles/global.scss' as *;
+
+
+button {
+    position: relative;
+    overflow: hidden;
+    background-color: $color3;
+    padding: 1vh 2vw;
+    outline: 1px solid #000;
+    outline-offset: -1px;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform .2s, box-shadow .2s, background-color .4s;
+
+    @include text(120%, 600, $color1);
+
+    &:disabled {
+        background-color: rgba($color3, 0.7);
+        cursor: not-allowed;
+    }
+
+    &:not(:disabled):active {
+        transform: scale(0.95);
+        box-shadow: 0 0px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    &:not(:disabled):hover::after {
+        left: 130%;
+        transition: left .6s ease;
+    }
+
+    &:not(:disabled):hover {
+        top: -0.1vw;
+    }
+
+    &:not(:disabled)::after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: -3vw;
+        top: -4.5vh;
+        transform: rotate(29deg);
+        width: 0.2vw;
+        height: 15vh;
+        background-color: radial-gradient(#6b6b6b, black);
+        outline: 1px solid #FFF9;
+        outline-offset: -1px;
+        box-shadow: 0px 0px 8px $color1;
+        transition: none;
+    }
+
+}
