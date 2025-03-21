@@ -68,49 +68,6 @@
     }
 }
 
-.user_name_box {
-    position: relative;
-    width: auto;
-    height: auto;
-
-    & label {
-        position: absolute;
-        left: 2.5%;
-        top: 2vh;
-        background-color: rgba($color3, 0.8);
-        padding: 0 5px;
-        transition: top .3s ease, background-color .3s ease;
-
-        @include text(100%, 600, $color1);
-    }
-
-    & input {
-        border-radius: 5px;
-        padding: 2vh 10%;
-        background-color: rgba($color3, 0.8);
-        outline: 2px solid #0003;
-        outline-offset: -2px;
-        transition: .4s;
-
-        @include text(110%, 600, $color1);
-
-        &:focus {
-            outline-color: $color2;
-        }
-
-        &:focus+label {
-            top: -1vh;
-            background-color: rgba($color3, 1);
-        }
-
-        &:focus+label,
-        &:not(:placeholder-shown)+label {
-            top: -1vh;
-            color: $color1;
-        }
-    }
-}
-
 .levels_box {
     @include box(100%, 2.5%);
     @include flex__box(row, center, space-between);
