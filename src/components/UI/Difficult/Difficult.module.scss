@@ -18,3 +18,9 @@
         outline: 2px solid $color2;
     }
 }
+
+.active {
+    background-color: $color3;
+    transform: scale(1.1);
+    outline: 2px solid $color2;
+}

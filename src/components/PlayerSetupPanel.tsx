@@ -8,7 +8,9 @@ const PlayerSetupPanel = () => {
     const [userNickname, setUserNickname] = useState<string>('');
     const [level, setLevel] = useState<string>('');
 
-    console.log(userNickname);
+    const chosenLevel = (userLevel:string) => {
+        setLevel(userLevel);
+    }
 
     const startGame = () => {
         console.log('game been started');
@@ -41,6 +43,8 @@ const PlayerSetupPanel = () => {
                             <Difficult
                                 key={difficult.level}
                                 cardCount={difficult.cardCount}
+                                onClick={chosenLevel}
+                                isActive={level === difficult.level}
                             >
                                 {difficult.level}
                             </Difficult>
