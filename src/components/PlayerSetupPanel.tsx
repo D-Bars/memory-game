@@ -2,10 +2,13 @@ import { useState } from 'react';
 import cl from './styles/PlayerSetupPanel.module.scss';
 import { Difficulty } from '../types/Difficulty';
 import Difficult from './UI/Difficult/Difficult';
+import InputLabel from './UI/InputLabel/InputLabel';
 
 const PlayerSetupPanel = () => {
     const [userNickname, setUserNickname] = useState<string>('');
     const [level, setLevel] = useState<string>('');
+
+    console.log(userNickname);
 
     const startGame = () => {
         console.log('game been started');
@@ -24,10 +27,14 @@ const PlayerSetupPanel = () => {
             <div className={cl.window_container}>
                 <h2>Welcome to the memory game!</h2>
                 <div className={cl.window_options_box}>
-                    <div className={cl.user_name_box}>
-                        <input id='userName' type="text" placeholder='' />
-                        <label htmlFor="userName">Nickname</label>
-                    </div>
+                    <InputLabel
+                        id='userName'
+                        label='Nickname'
+                        inputType='text'
+                        placeholder=''
+                        value={userNickname}
+                        onChange={(e) => setUserNickname(e.target.value)}
+                    />
                     <h3>select difficulty level</h3>
                     <div className={cl.levels_box}>
                         {difficulty.map((difficult) => (
