@@ -1,26 +1,21 @@
 import { useState } from 'react';
 import cl from './styles/PlayerSetupPanel.module.scss';
-import { Difficulty } from '../types/Difficulty';
 import Difficult from './UI/Difficult/Difficult';
 import InputLabel from './UI/InputLabel/InputLabel';
 import BlickButton from './UI/BlickButton/BlickButton';
+import { useGameStore } from '../store/gameStore';
+import { getDifficultyLevels } from '../utils/getDifficultyLevels';
 
 const PlayerSetupPanel = () => {
     const [userNickname, setUserNickname] = useState<string>('');
     const [level, setLevel] = useState<string>('');
+    const {startGame} = useGameStore();
 
     const chosenLevel = (userLevel:string) => {
         setLevel(userLevel);
     }
 
-    const startGame = () => {
-        console.log('game been started');
-    }
-    const difficulty: Difficulty[] = [
-        { level: 'easy', cardCount: 6 },
-        { level: 'medium', cardCount: 12 },
-        { level: 'hard', cardCount: 18 },
-    ];
+    const difficulty = getDifficultyLevels();
 
     const isStartDisabled = userNickname === '' || level === '';
 
@@ -52,7 +47,7 @@ const PlayerSetupPanel = () => {
                         ))}
                     </div>
                 </div>
-                <BlickButton disabled={isStartDisabled} onClick={startGame}>Start Game</BlickButton>
+                <BlickButton disabled={isStartDisabled} onClick={()=> startGame()}>Start Game</BlickButton>
             </div>
         </div>
     );
