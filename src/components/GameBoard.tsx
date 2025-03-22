@@ -6,7 +6,7 @@ const GameBoard = () => {
     <div className={cl.game_board}>
         <CardsList />
         <div className={cl.game_stats_panel}>
-
+            
         </div>
     </div>
   );

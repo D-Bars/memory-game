@@ -19,8 +19,8 @@ const CardItem: FC<CardProps> = ({ card }) => {
         <div
             className={clsx(cl.card, { [cl.flipped]: isFlipped })}
             onClick={handleCardClick}>
-            <div className={cl.card_front}>{card.id}</div>
-            <div className={cl.card_back}>{card.id}</div>
+            <div className={cl.card_front}></div>
+            <img className={cl.card_back} src={card.image} />
         </div>
     );
 };

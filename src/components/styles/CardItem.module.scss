@@ -1,10 +1,27 @@
 @use '../../styles/global.scss' as *;
 
+@keyframes shake {
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+    25% {
+        transform: translateX(-4px) rotate(-2deg);
+    }
+    50% {
+        transform: translateX(4px) rotate(2deg);
+    }
+    75% {
+        transform: translateX(-4px) rotate(-2deg);
+    }
+    100% {
+        transform: translateX(0) rotate(0deg);
+    }
+}
+
 .card {
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.6s;
-    flex: 1 1 10%;
 
     @include box(10%, 0, 20vh);
 
@@ -26,6 +43,42 @@
     background-color: #f1f1f1;
     border: 1px solid #ccc;
     border-radius: 10px;
+}
+
+.card_front {
+    overflow: hidden;
+    background-image: 
+    linear-gradient(to bottom right, rgba($color1, 0.6), rgba($color3, 0.6)), 
+    url(../../assets/img/card_background1.png);
+    background-blend-mode: overlay;
+    background-position: center center;
+    background-size: contain;
+    background-color: rgba($color: #000, $alpha: .5);
+    cursor: pointer;
+
+    &:hover{
+        animation: shake 0.5s ease-out;
+    }
+
+    &:hover::after {
+        left: 130%;
+        transition: left .6s ease;
+    }
+
+    &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        left: -15vw;
+        top: -4vh;
+        transform: rotate(29deg);
+        width: 0.2vw;
+        height: 27vh;
+        outline: 1px solid #FFF9;
+        outline-offset: -1px;
+        box-shadow: 0px 0px 8px $color1;
+        transition: none;
+    }
 }
 
 .card_back {
