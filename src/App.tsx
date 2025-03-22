@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import PlayerSetupPanel from "./components/PlayerSetupPanel"
 import { useGameStore } from "./store/gameStore";
 import { GenerateCardsArray } from "./utils/GenerateCardsArray"
+import GameBoard from "./components/GameBoard";
 
 function App() {
   const {isGameStart, setCards} = useGameStore();
@@ -12,7 +13,8 @@ function App() {
   }, []);
   return (
     <div>
-      {isGameStart ? <div>Game started</div> : <PlayerSetupPanel></PlayerSetupPanel> }
+      {isGameStart ? <GameBoard /> : <PlayerSetupPanel></PlayerSetupPanel> }
+      {/* <GameBoard /> */}
     </div>
   )
 }
