@@ -11,8 +11,10 @@ interface CardProps {
 
 const CardItem: FC<CardProps> = ({ card }) => {
     const [isFlipped, setIsFlipped] = useState(false);
+    const { incrementAttempts } = useGameStore();
     const handleCardClick = () => {
         setIsFlipped(!isFlipped);
+        incrementAttempts();
     };
     return (
 
