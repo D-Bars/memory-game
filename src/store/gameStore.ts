@@ -6,6 +6,12 @@ interface gameState {
     cards: Card[];
     cardCount: number;
     attempts: number;
+    timeInSecondsStr: string;
+    timeInSecondsNum: number;
+    isTimerRunning: boolean;
+
+    setTimeInSecondsStr: (value: string) => void;
+    setTimeInSecondsNum: (value: number) => void;
     setCards: (cards: Card[]) => void;
     setCardCount: (count: number) => void;
     startGame: () => void,
@@ -18,6 +24,12 @@ export const useGameStore = create<gameState>((set) => ({
     cards: [],
     cardCount: 0,
     attempts: 0,
+    timeInSecondsStr: '00:00:00',
+    timeInSecondsNum: 0,
+    isTimerRunning: false,
+
+    setTimeInSecondsStr: (value) => set({ timeInSecondsStr: value }),
+    setTimeInSecondsNum: (value) => set({ timeInSecondsNum: value }),
     setCards: (cards) => set({ cards }),
     setCardCount: (count) => set({cardCount: count}),
     startGame: () => set({isGameStart: true}),

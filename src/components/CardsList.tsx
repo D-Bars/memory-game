@@ -58,10 +58,12 @@ const CardsList = () => {
                         : cardItem
                 );
                 setFinalCardsArray(matchedCard);
-                setCardWaiting(false);
-                if (checkGameOver(matchedCard)) {
-                    gameOver(); 
-                }
+                setTimeout(() => {
+                    setCardWaiting(false);
+                    if (checkGameOver(matchedCard)) {
+                        gameOver();
+                    }
+                }, 1000);
             } else {
                 setTimeout(() => {
                     const resetCards = finalCardsArray.map(cardItem =>
