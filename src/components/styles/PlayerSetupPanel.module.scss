@@ -6,9 +6,16 @@
     width: 100%;
     background-image: url(../../assets/img/setup_panel_background.png);
     background-position: center center;
+    background-repeat: no-repeat;
     background-size: 100% 150%;
 
     @include flex__box(row, center, center);
+
+    @media screen and (max-width: 800px) {
+        width: 95%;
+        padding: 0 2.5%;
+        background-size: auto;
+    }
 
     & h2 {
         background: linear-gradient(to right, $color1, rgb(156, 156, 156) 50%, $color1);
@@ -42,6 +49,11 @@
 
     @include box(40%, 2.5%);
     @include flex__box(column, center);
+
+    @media screen and (max-width: 800px) {
+        width: 95%;
+        padding: 5vh 2.5%;
+    }
 
     & h2 {
         @include text(130%, 800, $color1);

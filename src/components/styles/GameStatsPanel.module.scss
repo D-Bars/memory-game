@@ -15,6 +15,13 @@
 
     @include box(100%, 2.5%);
     @include flex__box(row, center, space-between);
+
+    @media screen and (max-width: 800px) {
+        width: 95%;
+        flex-wrap: wrap;
+        gap: 2vh;
+        padding: 3vh 2.5%;
+    }
 }
 
 .stats_item {
@@ -24,6 +31,10 @@
 
     & span {
         @include text(130%, 600, $color1);
+
+        @media screen and (max-width: 800px) {
+            font-size: 4.5vw;
+        }
     }
 }
 
@@ -31,6 +42,10 @@
     padding: 1vh 2vw;
     background: linear-gradient(to bottom right, rgba(233, 254, 255, 0.2), rgba(17, 24, 47, 0.2));
     @include text(150%, 800, $color1);
+
+    @media screen and (max-width: 800px) {
+        font-size: 4vw;
+    }
 }
 
 .routes_box{
@@ -38,7 +53,17 @@
 
     @include flex__box(column);
 
+    @media screen and (max-width: 800px) {
+        width: 100%;
+        justify-content: center;
+        flex-direction: row;
+    }
+
     & button{
         background: linear-gradient(to bottom right, rgba(233, 254, 255, 0.2), rgba(17, 24, 47, 0.2));
+
+        @media screen and (max-width: 800px) {
+            font-size: 4.5vw;
+        }
     }
 }

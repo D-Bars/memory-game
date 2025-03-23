@@ -24,6 +24,10 @@
         border-bottom: 2px solid #ddd;
     
         @include text(110%, 800, #000);
+
+        @media screen and (max-width: 800px) {
+            font-size: 4vw;
+        }
     }
 
     & td {
@@ -31,17 +35,19 @@
         border-bottom: 1px solid #ddd;
     
         @include text(100%, 600, #000);
+
+        @media screen and (max-width: 800px) {
+            font-size: 4vw;
+        }
     }
 }
 
 .stats_not_found {
-    font-size: 18px;
-    color: #888;
-    text-align: center;
+    @include text(150%, 800, red);
 }
 
 .routes_box{
     gap: 2vw;
-    
+
     @include flex__box(row, center);
 }

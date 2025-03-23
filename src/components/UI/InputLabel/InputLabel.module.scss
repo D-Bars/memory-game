@@ -1,9 +1,13 @@
 @use '../../../styles/global.scss' as *;
 
 .label_input_box {
+    width: 50%;
     position: relative;
-    width: auto;
     height: auto;
+
+    @media screen and (max-width: 800px) {
+        width: 70%;
+    }
 
     & label {
         position: absolute;
@@ -12,11 +16,12 @@
         background-color: rgba($color3, 0.8);
         padding: 0 5px;
         transition: top .3s ease, background-color .3s ease;
-
+        
         @include text(100%, 600, $color1);
     }
-
+    
     & input {
+        width: 80%;
         border-radius: 5px;
         padding: 2vh 10%;
         background-color: rgba($color3, 0.8);

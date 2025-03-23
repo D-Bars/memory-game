@@ -25,6 +25,11 @@
 
     @include box(10%, 0, 20vh);
 
+    @media screen and (max-width: 800px) {
+        width: 20%;
+        height: 10vh;
+    }
+
     &.flipped {
         transform: rotateY(180deg);
     }
@@ -54,6 +59,7 @@
     background-position: center center;
     background-size: contain;
     background-color: rgba($color: #000, $alpha: .5);
+    background-repeat: no-repeat;
     cursor: pointer;
 
     &:hover{
