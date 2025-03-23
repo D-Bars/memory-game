@@ -9,7 +9,7 @@ interface StatisticsProps {
 }
 
 const Statistics = ({ statsArray }: StatisticsProps) => {
-    const {isGameStart} = useGameStore();
+    const {isGameStart, resetGame} = useGameStore();
     const navigate = useNavigate();
     return (
         <div className={cl.statistics}>
@@ -39,7 +39,7 @@ const Statistics = ({ statsArray }: StatisticsProps) => {
                 <div className={cl.stats_not_found}>No statistics found</div>
             )}
             <div className={cl.routes_box}>
-                <BlickButton onClick={() => navigate('/')}>BACK TO SETUP</BlickButton>
+                <BlickButton onClick={() => { resetGame(navigate)}}>BACK TO SETUP</BlickButton>
                 {isGameStart ? (
                     <BlickButton onClick={() => navigate('/game')}>BACK TO GAME</BlickButton>
                 )

@@ -35,7 +35,7 @@ export const useGameStore = create<gameState>((set) => ({
     startGame: () => set({isGameStart: true}),
     incrementAttempts: () => set((state) => ({ attempts: state.attempts + 1 })),
     resetGame: (navigate) => {
-        set({ isGameStart: false, attempts: 0, cardCount: 0 });
+        set({ isGameStart: false, attempts: 0, cardCount: 0, timeInSecondsNum: 0, timeInSecondsStr: '00:00:00' });
         navigate("/");
     },
 }));
