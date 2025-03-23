@@ -11,7 +11,7 @@ export const GenerateCardsArray = (): Card[] => {
         'card7.jpg',
         'card8.jpg',
         'card9.jpg',
-        'card10.png',
+        'card10.jpg',
         'card11.jpg',
         'card12.jpg',
     ]
