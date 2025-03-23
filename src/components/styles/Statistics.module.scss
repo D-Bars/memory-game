@@ -1,0 +1,47 @@
+@use '../../styles/global.scss' as *;
+
+.statistics {
+    gap: 5vh;
+
+    @include box(100%, 0, auto, 5vh);
+    @include flex__box(column, center, center);
+
+    & h1 {
+        @include text(200%, 800, $color3);
+    }
+}
+
+.statistics_table {
+    border-collapse: collapse;
+    text-align: left;
+
+    @include box(80%);
+
+    & th {
+        background-color: #f0f0f0;
+        padding: 10px;
+        text-transform: uppercase;
+        border-bottom: 2px solid #ddd;
+    
+        @include text(110%, 800, #000);
+    }
+
+    & td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    
+        @include text(100%, 600, #000);
+    }
+}
+
+.stats_not_found {
+    font-size: 18px;
+    color: #888;
+    text-align: center;
+}
+
+.routes_box{
+    gap: 2vw;
+    
+    @include flex__box(row, center);
+}
