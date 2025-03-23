@@ -1,0 +1,16 @@
+@use '../../styles/global.scss' as *;
+
+.route_box{
+    margin-top: 5vh;
+    text-transform: uppercase;
+    gap: 0.5vw;
+
+    @include flex__box(row, center, center);
+    @include text(110%, 800, red);
+}
+
+.route{
+    text-decoration: underline;
+    color: $color3;
+    cursor: pointer;
+}
