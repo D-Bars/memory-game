@@ -10,7 +10,7 @@ interface gameState {
     setCardCount: (count: number) => void;
     startGame: () => void,
     incrementAttempts: () => void;
-    resetGame: () => void;
+    resetGame: (navigate: Function) => void;
 }
 
 export const useGameStore = create<gameState>((set) => ({
@@ -22,5 +22,8 @@ export const useGameStore = create<gameState>((set) => ({
     setCardCount: (count) => set({cardCount: count}),
     startGame: () => set({isGameStart: true}),
     incrementAttempts: () => set((state) => ({ attempts: state.attempts + 1 })),
-    resetGame: () => set({ isGameStart: false, attempts: 0, cardCount: 0 }),
+    resetGame: (navigate) => {
+        set({ isGameStart: false, attempts: 0, cardCount: 0 });
+        navigate("/");
+    },
 }));

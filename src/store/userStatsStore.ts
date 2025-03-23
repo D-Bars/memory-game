@@ -4,22 +4,54 @@ interface userStatsStore{
     nickname: string;
     difficultLevel: string;
     finalAttempts: number;
-    finalTime: number;
+    finalTime: string;
     setNickname: (name: string) => void;
     setDifficultLevel: (level: string) => void;
     setAttempts: (attempts: number) => void;
-    setTime: (time: number) => void;
+    setTime: (time: string) => void;
     resetStats: () => void;
+    saveStats: () => void; 
+    loadStats: () => void;
 }
 
 export const useUserStatsStore = create<userStatsStore>((set) => ({
     nickname: '',
     difficultLevel: '',
     finalAttempts: 0,
-    finalTime: 0,
+    finalTime: '00:00:00',
     setNickname: (name) => set({nickname:name}),
     setDifficultLevel: (level) => set({difficultLevel:level}),
     setAttempts: (attempts) => set({finalAttempts:attempts}),
     setTime: (time) => set({finalTime:time}),
-    resetStats: () => set({ nickname: '', difficultLevel: '', finalAttempts: 0, finalTime: 0 }),
+    resetStats: () => set({ nickname: '', difficultLevel: '', finalAttempts: 0, finalTime: '00:00:00' }),
+    saveStats: () => set((state) => {
+        const savedStats = localStorage.getItem('userStats');
+        
+        const statsArray = savedStats ? JSON.parse(savedStats) : [];
+    
+        const newGameStats = {
+            nickname: state.nickname,
+            difficultLevel: state.difficultLevel,
+            finalAttempts: state.finalAttempts,
+            finalTime: state.finalTime
+        };
+    
+        statsArray.push(newGameStats); 
+    
+        localStorage.setItem('userStats', JSON.stringify(statsArray));
+    
+        return state; 
+    }),
+    loadStats: () => {
+        const savedStats = localStorage.getItem('userStats');
+        if (savedStats) {
+            const statsArray = JSON.parse(savedStats);
+            set({
+                nickname: statsArray[statsArray.length - 1]?.nickname || '',
+                difficultLevel: statsArray[statsArray.length - 1]?.difficultLevel || '',
+                finalAttempts: statsArray[statsArray.length - 1]?.finalAttempts || 0,
+                finalTime: statsArray[statsArray.length - 1]?.finalTime || '00:00:00'
+            });
+        }
+    }
 }))
