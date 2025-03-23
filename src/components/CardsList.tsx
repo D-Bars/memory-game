@@ -6,15 +6,22 @@ import { getDuplicatedArray } from "../utils/getDuplicatedArray";
 import { Card } from "../types/Card";
 import CardItem from './CardItem';
 import cl from './styles/CardsList.module.scss';
+import { useUserStatsStore } from "../store/userStatsStore";
+import { useNavigate } from "react-router-dom";
 
 const CardsList = () => {
-    const { cardCount, cards, resetGame } = useGameStore();
+    const { cardCount, cards, attempts, resetGame } = useGameStore();
+    const { resetStats, saveStats, setAttempts } = useUserStatsStore();
     const [finalCardsArray, setFinalCardsArray] = useState<Card[]>([]);
     const [checkOpenedCard, setCheckOpenedCard] = useState<Card | null>(null);
     const [cardWaiting, setCardWaiting] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const gameOver = () => {
-        resetGame();
+        setAttempts(attempts);
+        saveStats();
+        resetGame(navigate); 
+        resetStats(); 
     }
 
     const checkGameOver = (cards: Card[]) => {
@@ -69,7 +76,6 @@ const CardsList = () => {
             setCheckOpenedCard(null);
         }
     }
-    console.log(finalCardsArray);
 
     return (
         <div className={cl.cards_box}>

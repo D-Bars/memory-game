@@ -73,3 +73,40 @@
     @include box(100%, 2.5%);
     @include flex__box(row, center, space-between);
 }
+
+.stats{
+    position: relative;
+    overflow: hidden;
+    background-color: #11182F;
+    padding: 1vh 2vw;
+    outline: 1px solid #000;
+    outline-offset: -1px;
+    box-shadow: 0 0px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.4s, scale .4s;
+    @include text(150%, 800, $color1);
+
+    &:after{
+        content: "";
+        display: block;
+        position: absolute;
+        left: -3vw;
+        top: -4.5vh;
+        transform: rotate(29deg);
+        width: 0.2vw;
+        height: 15vh;
+        background-color: radial-gradient(#6b6b6b, black);
+        outline: 1px solid rgba(255, 255, 255, 0.6);
+        outline-offset: -1px;
+        box-shadow: 0px 0px 8px #E9FEFF;
+    }
+
+    &:hover::after {
+        left: 130%;
+        transition: left .6s ease;
+    }
+
+    &:active{
+        transform: scale(0.9);
+    }
+}
