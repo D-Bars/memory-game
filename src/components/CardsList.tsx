@@ -8,12 +8,19 @@ import CardItem from './CardItem';
 import cl from './styles/CardsList.module.scss';
 
 const CardsList = () => {
-    const { cardCount, cards } = useGameStore();
+    const { cardCount, cards, resetGame } = useGameStore();
     const [finalCardsArray, setFinalCardsArray] = useState<Card[]>([]);
+    const [checkOpenedCard, setCheckOpenedCard] = useState<Card | null>(null);
+    const [cardWaiting, setCardWaiting] = useState<boolean>(false);
 
-    const handleClickItem = () => {
-        console.log(1);
+    const gameOver = () => {
+        resetGame();
     }
+
+    const checkGameOver = (cards: Card[]) => {
+        return cards.every(card => card.isMatched);
+    }
+
     useEffect(() => {
         const prepareCardsArray = () => {
             const shuffledArray = getShuffledArray({ cards });
@@ -27,6 +34,43 @@ const CardsList = () => {
         setFinalCardsArray(cardsArr);
     }, [cardCount, cards]);
 
+    const handleCardClick = (card: Card) => {
+        const updatedCards = finalCardsArray.map(cardItem =>
+            cardItem.uniqueId === card.uniqueId ? { ...cardItem, isFlipped: true } : cardItem
+        );
+        setFinalCardsArray(updatedCards);
+
+        if (checkOpenedCard === null) {
+            setCheckOpenedCard(card);
+        } else {
+            setCardWaiting(true);
+            if (checkOpenedCard.id === card.id) {
+                const matchedCard = finalCardsArray.map(cardItem =>
+                    cardItem.id === checkOpenedCard.id || cardItem.id === card.id
+                        ? { ...cardItem, isFlipped: true, isMatched: true }
+                        : cardItem
+                );
+                setFinalCardsArray(matchedCard);
+                setCardWaiting(false);
+                if (checkGameOver(matchedCard)) {
+                    gameOver(); 
+                }
+            } else {
+                setTimeout(() => {
+                    const resetCards = finalCardsArray.map(cardItem =>
+                        cardItem.uniqueId === checkOpenedCard.uniqueId || cardItem.uniqueId === card.uniqueId
+                            ? { ...cardItem, isFlipped: false }
+                            : cardItem
+                    );
+                    setFinalCardsArray(resetCards);
+                    setCardWaiting(false);
+                }, 1000);
+            }
+            setCheckOpenedCard(null);
+        }
+    }
+    console.log(finalCardsArray);
+
     return (
         <div className={cl.cards_box}>
             {
@@ -34,7 +78,8 @@ const CardsList = () => {
                     <CardItem
                         key={card.uniqueId}
                         card={card}
-                        // onClicked={handleClickItem}
+                        checkCard={handleCardClick}
+                        isWaiting={cardWaiting}
                     />
                 ))
             }
