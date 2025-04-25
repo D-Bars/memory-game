@@ -10,14 +10,15 @@ import { useUserStatsStore } from "../store/userStatsStore";
 import { useNavigate } from "react-router-dom";
 
 const CardsList = () => {
-    const { cardCount, cards, attempts, resetGame } = useGameStore();
-    const { resetStats, saveStats, setAttempts } = useUserStatsStore();
+    const { cardCount, cards, attempts, timeInSecondsStr, resetGame } = useGameStore();
+    const { resetStats, saveStats, setAttempts, setFinalTime } = useUserStatsStore();
     const [finalCardsArray, setFinalCardsArray] = useState<Card[]>([]);
     const [checkOpenedCard, setCheckOpenedCard] = useState<Card | null>(null);
     const [cardWaiting, setCardWaiting] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const gameOver = () => {
+        setFinalTime(timeInSecondsStr);
         setAttempts(attempts);
         saveStats();
         resetGame(navigate); 

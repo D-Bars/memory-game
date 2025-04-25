@@ -6,7 +6,7 @@ import BlickButton from './UI/BlickButton/BlickButton';
 import { useNavigate } from 'react-router-dom';
 
 const GameStatsPanel = () => {
-    const { nickname, difficultLevel, setTime } = useUserStatsStore();
+    const { nickname, difficultLevel } = useUserStatsStore();
     const {
         attempts,
         resetGame,
@@ -14,12 +14,12 @@ const GameStatsPanel = () => {
         timeInSecondsNum,
         setTimeInSecondsStr,
         setTimeInSecondsNum,
-        isTimerRunning
+        isTimerStopped
     } = useGameStore();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!isTimerRunning) {
+        if (!isTimerStopped) {
             const timer = setInterval(() => {
                 let newTime = timeInSecondsNum + 1;
                 setTimeInSecondsNum(newTime);
@@ -28,7 +28,7 @@ const GameStatsPanel = () => {
             }, 1000)
             return () => clearInterval(timer);
         }
-    }, [setTime, timeInSecondsStr, isTimerRunning]);
+    }, [timeInSecondsStr, isTimerStopped]);
 
     const formatTime = (time: number) => {
         const hours = Math.floor(time / 3600);

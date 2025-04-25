@@ -8,7 +8,7 @@ interface gameState {
     attempts: number;
     timeInSecondsStr: string;
     timeInSecondsNum: number;
-    isTimerRunning: boolean;
+    isTimerStopped: boolean;
 
     setTimeInSecondsStr: (value: string) => void;
     setTimeInSecondsNum: (value: number) => void;
@@ -26,7 +26,7 @@ export const useGameStore = create<gameState>((set) => ({
     attempts: 0,
     timeInSecondsStr: '00:00:00',
     timeInSecondsNum: 0,
-    isTimerRunning: false,
+    isTimerStopped: false,
 
     setTimeInSecondsStr: (value) => set({ timeInSecondsStr: value }),
     setTimeInSecondsNum: (value) => set({ timeInSecondsNum: value }),

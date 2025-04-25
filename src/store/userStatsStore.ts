@@ -8,7 +8,7 @@ interface userStatsStore{
     setNickname: (name: string) => void;
     setDifficultLevel: (level: string) => void;
     setAttempts: (attempts: number) => void;
-    setTime: (time: string) => void;
+    setFinalTime: (time: string) => void;
     resetStats: () => void;
     saveStats: () => void; 
     loadStats: () => void;
@@ -22,13 +22,12 @@ export const useUserStatsStore = create<userStatsStore>((set) => ({
     setNickname: (name) => set({nickname:name}),
     setDifficultLevel: (level) => set({difficultLevel:level}),
     setAttempts: (attempts) => set({finalAttempts:attempts}),
-    setTime: (time) => set({finalTime:time}),
+    setFinalTime: (time) => set({finalTime:time}),
     resetStats: () => set({ nickname: '', difficultLevel: '', finalAttempts: 0, finalTime: '00:00:00' }),
     saveStats: () => set((state) => {
         const savedStats = localStorage.getItem('userStats');
         
         const statsArray = savedStats ? JSON.parse(savedStats) : [];
-    
         const newGameStats = {
             nickname: state.nickname,
             difficultLevel: state.difficultLevel,
