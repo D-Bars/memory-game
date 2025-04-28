@@ -88,7 +88,8 @@
 }
 
 .card_back {
-    background-color: #333;
+    background-color: #FFF;
     color: #000;
     transform: rotateY(180deg);
+    object-fit: contain;
 }
