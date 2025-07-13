@@ -59,8 +59,8 @@ const CardsList = () => {
                         : cardItem
                 );
                 setFinalCardsArray(matchedCard);
+                setCardWaiting(false);
                 setTimeout(() => {
-                    setCardWaiting(false);
                     if (checkGameOver(matchedCard)) {
                         gameOver();
                     }
