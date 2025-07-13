@@ -15,14 +15,6 @@ const PlayerSetupPanel = () => {
     const { startGame, setCardCount } = useGameStore();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const savedStats = localStorage.getItem('userStats');
-
-        if (savedStats) {
-            JSON.parse(savedStats);
-        }
-    }, []);
-
     const chosenLevel = (userLevel: string, count: number) => {
         setLevel(userLevel);
         setSelectedCardCount(count);
