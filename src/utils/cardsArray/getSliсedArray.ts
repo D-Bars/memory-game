@@ -1,4 +1,4 @@
-import { Card } from "../types/Card";
+import { Card } from "../../types/Card";
 
 interface getSlicedArrayArg{
     cards: Card[],

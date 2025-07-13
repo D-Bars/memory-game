@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useGameStore } from "../store/gameStore";
-import { getShuffledArray } from "../utils/getShuffledArray";
-import { getSlicedArray } from "../utils/getSliсedArray";
-import { getDuplicatedArray } from "../utils/getDuplicatedArray";
 import { Card } from "../types/Card";
 import CardItem from './CardItem';
 import cl from './styles/CardsList.module.scss';
 import { useUserStatsStore } from "../store/userStatsStore";
 import { useNavigate } from "react-router-dom";
+import { GenerateCardsArray } from "../utils/cardsArray/GenerateCardsArray";
 
 const CardsList = () => {
     const { cardCount, cards, attempts, timeInSecondsStr, resetGame } = useGameStore();
@@ -30,15 +28,7 @@ const CardsList = () => {
     }
 
     useEffect(() => {
-        const prepareCardsArray = () => {
-            const shuffledArray = getShuffledArray({ cards });
-            const slicedArray = getSlicedArray({ cards: shuffledArray, count: cardCount });
-            const duplicatedArray = getDuplicatedArray({ cards: slicedArray });
-            const duplicatedAndShuffledArray = getShuffledArray({ cards: duplicatedArray });
-            return duplicatedAndShuffledArray;
-        }
-
-        const cardsArr = prepareCardsArray();
+        const cardsArr = GenerateCardsArray(cards, cardCount);
         setFinalCardsArray(cardsArr);
     }, [cardCount, cards]);
 

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import PlayerSetupPanel from "./components/PlayerSetupPanel"
 import { useGameStore } from "./store/gameStore";
-import { GenerateCardsArray } from "./utils/GenerateCardsArray"
+import { GenerateImagesCardsArray } from "./utils/cardsArray/GenerateImagesCardsArray"
 import { Route, Routes } from 'react-router-dom';
 import StatisticsPage from "./pages/StatisticsPage";
 import GamePage from "./pages/GamePage";
@@ -10,7 +10,7 @@ function App() {
   const { setCards } = useGameStore();
 
   useEffect(() => {
-    const cardArray = GenerateCardsArray();
+    const cardArray = GenerateImagesCardsArray();
     setCards(cardArray);
   }, []);
   return (

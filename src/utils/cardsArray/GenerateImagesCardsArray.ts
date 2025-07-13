@@ -1,6 +1,6 @@
-import { Card } from "../types/Card";
+import { Card } from "../../types/Card";
 
-export const GenerateCardsArray = (): Card[] => {
+export const GenerateImagesCardsArray = (): Card[] => {
     const imagesArray = [
         'card1.jpg',
         'card2.jpg',
