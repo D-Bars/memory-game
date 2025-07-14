@@ -1,29 +1,31 @@
 import { useEffect, useState } from "react";
 import { Card } from "../types/Card";
-import { useGameStore } from "../store/gameStore";
-import { useUserStatsStore } from "../store/userStatsStore";
-import { useNavigate } from "react-router-dom";
+// import { useGameStore } from "../store/gameStore";
+// import { useUserStatsStore } from "../store/userStatsStore";
+// import { useNavigate } from "react-router-dom";
 import { GenerateCardsArray } from "../utils/cardsArray/GenerateCardsArray";
 import { isPair } from "../utils/checkCardByClick/isPair";
 import { resetCards } from "../utils/checkCardByClick/resetCards";
+import { checkGameOver } from "../utils/gameEndings/checkGameOver";
+import { gameOver } from "../utils/gameEndings/gameOver";
 
 export function useGameLogic(cards: Card[], cardCount: number) {
-  const { attempts, timeInSecondsStr, resetGame } = useGameStore();
-  const { resetStats, saveStats, setAttempts, setFinalTime } = useUserStatsStore();
+//   const { attempts, timeInSecondsStr, resetGame } = useGameStore();
+//   const { resetStats, saveStats, setAttempts, setFinalTime } = useUserStatsStore();
   const [finalCardsArray, setFinalCardsArray] = useState<Card[]>([]);
   const [firstOpenedCard, setFirstOpenedCard] = useState<Card | null>(null);
   const [cardWaiting, setCardWaiting] = useState<boolean>(false);
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
 
-  const gameOver = () => {
-    setFinalTime(timeInSecondsStr);
-    setAttempts(attempts);
-    saveStats();
-    resetGame(navigate);
-    resetStats();
-  };
+//   const gameOver = () => {
+//     setFinalTime(timeInSecondsStr);
+//     setAttempts(attempts);
+//     saveStats();
+//     resetGame(navigate);
+//     resetStats();
+//   };
 
-  const checkGameOver = (cards: Card[]) => cards.every(card => card.isMatched);
+//   const checkGameOver = (cards: Card[]) => cards.every(card => card.isMatched);
 
   useEffect(() => {
     const cardsArr = GenerateCardsArray(cards, cardCount);
@@ -52,8 +54,11 @@ export function useGameLogic(cards: Card[], cardCount: number) {
       setFirstOpenedCard(null);
 
       setTimeout(() => {
-        if (checkGameOver(matchedCards)) {
-          gameOver();
+        // if (checkGameOver(matchedCards)) {
+        //   gameOver();
+        // }
+        if(checkGameOver(matchedCards)){
+            gameOver();
         }
       }, 1000);
     } else {
