@@ -4,12 +4,14 @@ import { GenerateCardsArray } from "../utils/cardsArray/GenerateCardsArray";
 import { isPair } from "../utils/checkCardByClick/isPair";
 import { resetCards } from "../utils/checkCardByClick/resetCards";
 import { checkGameOver } from "../utils/gameEndings/checkGameOver";
-import { gameOver } from "../utils/gameEndings/gameOver";
+import { useGameOver } from "./useGameOver";
+
 
 export function useGameLogic(cards: Card[], cardCount: number) {
     const [finalCardsArray, setFinalCardsArray] = useState<Card[]>([]);
     const [firstOpenedCard, setFirstOpenedCard] = useState<Card | null>(null);
     const [cardWaiting, setCardWaiting] = useState<boolean>(false);
+    const gameOver = useGameOver();
 
     useEffect(() => {
         const cardsArr = GenerateCardsArray(cards, cardCount);
@@ -29,23 +31,22 @@ export function useGameLogic(cards: Card[], cardCount: number) {
             return;
         }
 
-        setCardWaiting(true);
-        setTimeout(() => {
-            if (firstOpenedCard.id === clickedCard.id) {
-                const matchedCards = isPair(finalCardsArray, firstOpenedCard, clickedCard);
-                setFinalCardsArray(matchedCards);
-
-                if (checkGameOver(matchedCards)) {
-                    gameOver();
-                }
-            } else {
-                const reset = resetCards(finalCardsArray, firstOpenedCard, clickedCard);
-                setFinalCardsArray(reset);
-            }
-
-            setCardWaiting(false);
+        if (firstOpenedCard.id === clickedCard.id) {
+            const matchedCards = isPair(updatedCards, firstOpenedCard, clickedCard);
+            setFinalCardsArray(matchedCards);
             setFirstOpenedCard(null);
-        }, 1000);
+            if (checkGameOver(matchedCards)) {
+                gameOver();
+            }
+        } else {
+            setCardWaiting(true);
+            setTimeout(() => {
+                const reset = resetCards(updatedCards, firstOpenedCard, clickedCard);
+                setFinalCardsArray(reset);
+                setCardWaiting(false);
+                setFirstOpenedCard(null);
+            }, 1000);
+        }
     };
 
     return { finalCardsArray, handleCardClick, cardWaiting };
