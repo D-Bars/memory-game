@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import cl from './styles/PlayerSetupPanel.module.scss';
 import Difficult from './UI/Difficult/Difficult';
 import InputLabel from './UI/InputLabel/InputLabel';
