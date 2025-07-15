@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import { Card } from "../types/Card";
-// import { useGameStore } from "../store/gameStore";
-// import { useUserStatsStore } from "../store/userStatsStore";
-// import { useNavigate } from "react-router-dom";
 import { GenerateCardsArray } from "../utils/cardsArray/GenerateCardsArray";
 import { isPair } from "../utils/checkCardByClick/isPair";
 import { resetCards } from "../utils/checkCardByClick/resetCards";
@@ -10,66 +7,46 @@ import { checkGameOver } from "../utils/gameEndings/checkGameOver";
 import { gameOver } from "../utils/gameEndings/gameOver";
 
 export function useGameLogic(cards: Card[], cardCount: number) {
-//   const { attempts, timeInSecondsStr, resetGame } = useGameStore();
-//   const { resetStats, saveStats, setAttempts, setFinalTime } = useUserStatsStore();
-  const [finalCardsArray, setFinalCardsArray] = useState<Card[]>([]);
-  const [firstOpenedCard, setFirstOpenedCard] = useState<Card | null>(null);
-  const [cardWaiting, setCardWaiting] = useState<boolean>(false);
-//   const navigate = useNavigate();
+    const [finalCardsArray, setFinalCardsArray] = useState<Card[]>([]);
+    const [firstOpenedCard, setFirstOpenedCard] = useState<Card | null>(null);
+    const [cardWaiting, setCardWaiting] = useState<boolean>(false);
 
-//   const gameOver = () => {
-//     setFinalTime(timeInSecondsStr);
-//     setAttempts(attempts);
-//     saveStats();
-//     resetGame(navigate);
-//     resetStats();
-//   };
+    useEffect(() => {
+        const cardsArr = GenerateCardsArray(cards, cardCount);
+        setFinalCardsArray(cardsArr);
+    }, [cardCount, cards]);
 
-//   const checkGameOver = (cards: Card[]) => cards.every(card => card.isMatched);
+    const handleCardClick = (clickedCard: Card) => {
+        if (cardWaiting) return;
 
-  useEffect(() => {
-    const cardsArr = GenerateCardsArray(cards, cardCount);
-    setFinalCardsArray(cardsArr);
-  }, [cardCount, cards]);
+        const updatedCards = finalCardsArray.map(cardItem =>
+            cardItem.uniqueId === clickedCard.uniqueId ? { ...cardItem, isFlipped: true } : cardItem
+        );
+        setFinalCardsArray(updatedCards);
 
-  const handleCardClick = (clickedCard: Card) => {
-    if (cardWaiting) return;
-
-    const updatedCards = finalCardsArray.map(cardItem =>
-      cardItem.uniqueId === clickedCard.uniqueId ? { ...cardItem, isFlipped: true } : cardItem
-    );
-    setFinalCardsArray(updatedCards);
-
-    if (firstOpenedCard === null) {
-      setFirstOpenedCard(clickedCard);
-      return;
-    }
-
-    setCardWaiting(true);
-
-    if (firstOpenedCard.id === clickedCard.id) {
-      const matchedCards = isPair(finalCardsArray, firstOpenedCard, clickedCard);
-      setFinalCardsArray(matchedCards);
-      setCardWaiting(false);
-      setFirstOpenedCard(null);
-
-      setTimeout(() => {
-        // if (checkGameOver(matchedCards)) {
-        //   gameOver();
-        // }
-        if(checkGameOver(matchedCards)){
-            gameOver();
+        if (firstOpenedCard === null) {
+            setFirstOpenedCard(clickedCard);
+            return;
         }
-      }, 1000);
-    } else {
-      setTimeout(() => {
-        const reset = resetCards(finalCardsArray, firstOpenedCard, clickedCard);
-        setFinalCardsArray(reset);
-        setCardWaiting(false);
-        setFirstOpenedCard(null);
-      }, 1000);
-    }
-  };
 
-  return { finalCardsArray, handleCardClick, cardWaiting };
+        setCardWaiting(true);
+        setTimeout(() => {
+            if (firstOpenedCard.id === clickedCard.id) {
+                const matchedCards = isPair(finalCardsArray, firstOpenedCard, clickedCard);
+                setFinalCardsArray(matchedCards);
+
+                if (checkGameOver(matchedCards)) {
+                    gameOver();
+                }
+            } else {
+                const reset = resetCards(finalCardsArray, firstOpenedCard, clickedCard);
+                setFinalCardsArray(reset);
+            }
+
+            setCardWaiting(false);
+            setFirstOpenedCard(null);
+        }, 1000);
+    };
+
+    return { finalCardsArray, handleCardClick, cardWaiting };
 }
