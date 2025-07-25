@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import BlickButton from './UI/BlickButton/BlickButton';
 import { useModalWindowStore } from '../store/modalWindowStore';
 import { useGameOver } from '../hooks/useGameOver';
-import { AnimatePresence, motion, scale, transform } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 
 
 const ModalWindow = () => {
