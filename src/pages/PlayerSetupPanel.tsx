@@ -7,6 +7,8 @@ import { useGameStore } from '../store/gameStore';
 import { getDifficultyLevels } from '../utils/getDifficultyLevels';
 import { useUserStatsStore } from '../store/userStatsStore';
 import { useNavigate } from 'react-router-dom';
+import useSound from 'use-sound';
+import clickSoundStone from '/sounds/click/stone.mp3';
 
 const PlayerSetupPanel = () => {
     const [userNickname, setUserNickname] = useState<string>('');
@@ -14,8 +16,15 @@ const PlayerSetupPanel = () => {
     const [selectedCardCount, setSelectedCardCount] = useState<number>(0);
     const { startGame, setCardCount } = useGameStore();
     const navigate = useNavigate();
-
+    
+    const [soundStone] = useSound(clickSoundStone, {
+        volume: 0.3,
+        playbackRate: 1.25,
+        interrupt: true,
+    });
+    
     const chosenLevel = (userLevel: string, count: number) => {
+        soundStone();
         setLevel(userLevel);
         setSelectedCardCount(count);
     }

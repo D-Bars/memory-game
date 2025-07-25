@@ -6,6 +6,8 @@ import { resetCards } from "../utils/checkCardByClick/resetCards";
 import { checkGameOver } from "../utils/gameEndings/checkGameOver";
 import { useGameStore } from "../store/gameStore";
 import { useModalWindowStore } from "../store/modalWindowStore";
+import useSound from 'use-sound';
+import effectSoundMatched from '/sounds/effect/matched.mp3';
 
 
 export function useGameLogic(cards: Card[], cardCount: number) {
@@ -14,6 +16,12 @@ export function useGameLogic(cards: Card[], cardCount: number) {
     const [cardWaiting, setCardWaiting] = useState<boolean>(false);
     const {pauseTimer} = useGameStore();
     const {setWin} = useModalWindowStore();
+
+    const [soundMatched] = useSound(effectSoundMatched, {
+        volume: 0.5,
+        playbackRate: 1.25,
+        interrupt: true,
+    });
 
     useEffect(() => {
         const cardsArr = GenerateCardsArray(cards, cardCount);
@@ -35,6 +43,7 @@ export function useGameLogic(cards: Card[], cardCount: number) {
 
         if (firstOpenedCard.id === clickedCard.id) {
             const matchedCards = isPair(updatedCards, firstOpenedCard, clickedCard);
+            soundMatched();
             setFinalCardsArray(matchedCards);
             setFirstOpenedCard(null);
             if (checkGameOver(matchedCards)) {
