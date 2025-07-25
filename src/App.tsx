@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import PlayerSetupPanel from "./components/PlayerSetupPanel"
+import PlayerSetupPanel from "./pages/PlayerSetupPanel"
 import { useGameStore } from "./store/gameStore";
 import { GenerateImagesCardsArray } from "./utils/cardsArray/GenerateImagesCardsArray"
 import { Route, Routes } from 'react-router-dom';

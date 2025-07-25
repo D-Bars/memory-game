@@ -17,6 +17,7 @@ interface gameState {
     startGame: () => void,
     incrementAttempts: () => void;
     resetGame: (navigate: Function) => void;
+    pauseTimer: () => void;
 }
 
 export const useGameStore = create<gameState>((set) => ({
@@ -35,7 +36,8 @@ export const useGameStore = create<gameState>((set) => ({
     startGame: () => set({isGameStart: true}),
     incrementAttempts: () => set((state) => ({ attempts: state.attempts + 1 })),
     resetGame: (navigate) => {
-        set({ isGameStart: false, attempts: 0, cardCount: 0, timeInSecondsNum: 0, timeInSecondsStr: '00:00:00' });
+        set({ isGameStart: false, attempts: 0, cardCount: 0, timeInSecondsNum: 0, timeInSecondsStr: '00:00:00', isTimerStopped:false });
         navigate("/");
     },
+    pauseTimer: () => set({isTimerStopped : true}),
 }));

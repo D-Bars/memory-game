@@ -4,14 +4,16 @@ import { GenerateCardsArray } from "../utils/cardsArray/GenerateCardsArray";
 import { isPair } from "../utils/checkCardByClick/isPair";
 import { resetCards } from "../utils/checkCardByClick/resetCards";
 import { checkGameOver } from "../utils/gameEndings/checkGameOver";
-import { useGameOver } from "./useGameOver";
+import { useGameStore } from "../store/gameStore";
+import { useModalWindowStore } from "../store/modalWindowStore";
 
 
 export function useGameLogic(cards: Card[], cardCount: number) {
     const [finalCardsArray, setFinalCardsArray] = useState<Card[]>([]);
     const [firstOpenedCard, setFirstOpenedCard] = useState<Card | null>(null);
     const [cardWaiting, setCardWaiting] = useState<boolean>(false);
-    const gameOver = useGameOver();
+    const {pauseTimer} = useGameStore();
+    const {setWin} = useModalWindowStore();
 
     useEffect(() => {
         const cardsArr = GenerateCardsArray(cards, cardCount);
@@ -36,7 +38,8 @@ export function useGameLogic(cards: Card[], cardCount: number) {
             setFinalCardsArray(matchedCards);
             setFirstOpenedCard(null);
             if (checkGameOver(matchedCards)) {
-                gameOver();
+                pauseTimer();
+                setWin();
             }
         } else {
             setCardWaiting(true);
