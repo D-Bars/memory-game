@@ -32,14 +32,15 @@ const ModalWindow = () => {
     const maskVariants = {
         visible: {
             opacity: 1,
-            transition: { duration: 5 }
+            transition: { duration: 0.5}
         },
         hidden: { opacity: 0 }
     }
 
     const containersVriants = {
         visible: { scale: 1 },
-        hidden: { scale: 0.1 }
+        hidden: { scale: 0.1 },
+        transition: { duration: 0.8 }
     }
 
     return (
