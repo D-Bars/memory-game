@@ -11,7 +11,7 @@ interface BlickButtonProps {
 
 const BlickButton: FC<BlickButtonProps> = ({ disabled, onClick, children }) => {
     const [soundStone] = useSound(clickSoundStone, {
-        volume: 0.3,
+        volume: 0.1,
         playbackRate: 1.25,
         interrupt: true,
     });

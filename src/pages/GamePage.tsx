@@ -2,9 +2,12 @@ import { useGameStore } from '../store/gameStore';
 import GameBoard from '../components/GameBoard';
 import cl from './styles/GamePage.module.scss';
 import { useNavigate } from 'react-router-dom';
+import { useMusicPlayerStore } from '../store/musicStore';
+import { useEffect } from 'react';
 
 const GamePage = () => {
     const { isGameStart } = useGameStore();
+    
     const navigate = useNavigate();
     const backToSetup = () => {
         navigate('/');

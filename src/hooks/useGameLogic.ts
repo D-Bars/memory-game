@@ -5,7 +5,7 @@ import { isPair } from "../utils/checkCardByClick/isPair";
 import { resetCards } from "../utils/checkCardByClick/resetCards";
 import { checkGameOver } from "../utils/gameEndings/checkGameOver";
 import { useGameStore } from "../store/gameStore";
-import { useModalWindowStore } from "../store/modalWindowStore";
+import { useModalWindowStore } from "../store/EndGameModalStore";
 import useSound from 'use-sound';
 import effectSoundMatched from '/sounds/effect/matched.mp3';
 

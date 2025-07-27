@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import cl from './styles/PlayerSetupPanel.module.scss'
 import Difficult from '../components/UI/Difficult/Difficult';
 import InputLabel from '../components/UI/InputLabel/InputLabel';
@@ -9,6 +9,7 @@ import { useUserStatsStore } from '../store/userStatsStore';
 import { useNavigate } from 'react-router-dom';
 import useSound from 'use-sound';
 import clickSoundStone from '/sounds/click/stone.mp3';
+import { useMusicPlayerStore } from '../store/musicStore';
 
 const PlayerSetupPanel = () => {
     const [userNickname, setUserNickname] = useState<string>('');
@@ -16,9 +17,16 @@ const PlayerSetupPanel = () => {
     const [selectedCardCount, setSelectedCardCount] = useState<number>(0);
     const { startGame, setCardCount } = useGameStore();
     const navigate = useNavigate();
+
+    const { setPageNameTrack, setCurrentTrackEl} = useMusicPlayerStore();
+
+    useEffect(() => {
+        setPageNameTrack('setup');
+        setCurrentTrackEl();
+    }, []);
     
     const [soundStone] = useSound(clickSoundStone, {
-        volume: 0.3,
+        volume: 0.1,
         playbackRate: 1.25,
         interrupt: true,
     });
