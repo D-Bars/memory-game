@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import Statistics from '../components/Statistics';
-import { useStatisticsStore } from '../store/statisticStore';
 import { useMusicPlayerStore } from '../store/musicStore';
+import { useUserStatsStore } from '../store/userStatsStore';
 
 const StatisticsPage = () => {
-    const { stats, loadStats } = useStatisticsStore();
+    const { stats, loadStats } = useUserStatsStore();
     const { setPageNameTrack, setCurrentTrackEl, isMusicOn } = useMusicPlayerStore();
 
     useEffect(() => {

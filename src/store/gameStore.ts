@@ -3,6 +3,7 @@ import { Card } from "../types/Card";
 
 interface gameState {
     isGameStart: boolean;
+    savedGameProgress: Card[];
     cards: Card[];
     cardCount: number;
     attempts: number;
@@ -22,6 +23,7 @@ interface gameState {
 
 export const useGameStore = create<gameState>((set) => ({
     isGameStart: false,
+    savedGameProgress: [],
     cards: [],
     cardCount: 0,
     attempts: 0,
