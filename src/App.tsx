@@ -5,22 +5,42 @@ import { GenerateImagesCardsArray } from "./utils/cardsArray/GenerateImagesCards
 import { Route, Routes } from 'react-router-dom';
 import StatisticsPage from "./pages/StatisticsPage";
 import GamePage from "./pages/GamePage";
+import WindowChooseOption from "./components/UI/WindowChooseOption/WindowChooseOption"
+import { useMusicPlayerStore } from "./store/musicStore";
 
 function App() {
   const { setCards } = useGameStore();
+  const { setIsMusicOn } = useMusicPlayerStore();
 
   useEffect(() => {
     const cardArray = GenerateImagesCardsArray();
     setCards(cardArray);
   }, []);
+
+  const modalOptions = {
+    'yes': true,
+    'no': false
+  }
+
+  const setMusicEnabled = (val:boolean) => {
+    setIsMusicOn(val);
+    console.log(val)
+  }
+
   return (
-    <div>
+    <>
+      <WindowChooseOption
+        title="Turn on background music?"
+        optionTextArr={modalOptions}
+        hasMask={true}
+        onClick={setMusicEnabled}
+      />
       <Routes>
         <Route path="/" element={<PlayerSetupPanel />} />
         <Route path="/game" element={<GamePage />} />
         <Route path="/statistics" element={<StatisticsPage />} />
       </Routes>
-    </div>
+    </>
   )
 }
 

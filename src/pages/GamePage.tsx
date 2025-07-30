@@ -7,6 +7,12 @@ import { useEffect } from 'react';
 
 const GamePage = () => {
     const { isGameStart } = useGameStore();
+    const { setPageNameTrack, setCurrentTrackEl, isMusicOn} = useMusicPlayerStore();
+
+    useEffect(() => {
+        setPageNameTrack('game');
+        setCurrentTrackEl();
+    }, [isMusicOn]);
     
     const navigate = useNavigate();
     const backToSetup = () => {

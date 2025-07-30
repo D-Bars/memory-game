@@ -5,12 +5,12 @@ import { useMusicPlayerStore } from '../store/musicStore';
 
 const StatisticsPage = () => {
     const { stats, loadStats } = useStatisticsStore();
-    const { setPageNameTrack, setCurrentTrackEl } = useMusicPlayerStore();
+    const { setPageNameTrack, setCurrentTrackEl, isMusicOn } = useMusicPlayerStore();
 
     useEffect(() => {
         setPageNameTrack('statistics');
         setCurrentTrackEl();
-    }, []);
+    }, [isMusicOn]);
     useEffect(() => {
         loadStats();
     }, []);

@@ -18,12 +18,12 @@ const PlayerSetupPanel = () => {
     const { startGame, setCardCount } = useGameStore();
     const navigate = useNavigate();
 
-    const { setPageNameTrack, setCurrentTrackEl} = useMusicPlayerStore();
+    const { setPageNameTrack, setCurrentTrackEl, isMusicOn} = useMusicPlayerStore();
 
     useEffect(() => {
         setPageNameTrack('setup');
         setCurrentTrackEl();
-    }, []);
+    }, [isMusicOn]);
     
     const [soundStone] = useSound(clickSoundStone, {
         volume: 0.1,

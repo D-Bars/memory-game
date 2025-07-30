@@ -8,14 +8,16 @@ import { useGameStore } from "../store/gameStore";
 import { useModalWindowStore } from "../store/EndGameModalStore";
 import useSound from 'use-sound';
 import effectSoundMatched from '/sounds/effect/matched.mp3';
+import { useMusicPlayerStore } from "../store/musicStore";
 
 
 export function useGameLogic(cards: Card[], cardCount: number) {
     const [finalCardsArray, setFinalCardsArray] = useState<Card[]>([]);
     const [firstOpenedCard, setFirstOpenedCard] = useState<Card | null>(null);
     const [cardWaiting, setCardWaiting] = useState<boolean>(false);
-    const {pauseTimer} = useGameStore();
-    const {setWin} = useModalWindowStore();
+    const { pauseTimer } = useGameStore();
+    const { setWin } = useModalWindowStore();
+    const { setPageNameTrack, setCurrentTrackEl } = useMusicPlayerStore();
 
     const [soundMatched] = useSound(effectSoundMatched, {
         volume: 0.5,
@@ -49,6 +51,8 @@ export function useGameLogic(cards: Card[], cardCount: number) {
             if (checkGameOver(matchedCards)) {
                 pauseTimer();
                 setWin();
+                setPageNameTrack('win');
+                setCurrentTrackEl();
             }
         } else {
             setCardWaiting(true);
