@@ -1,4 +1,4 @@
-import { Difficulty } from '../types/Difficulty';
+import { Difficulty } from '../../types/Difficulty';
 
 export const getDifficultyLevels = (): Difficulty[] => {
     return [

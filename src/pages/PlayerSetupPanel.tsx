@@ -4,7 +4,7 @@ import Difficult from '../components/UI/Difficult/Difficult';
 import InputLabel from '../components/UI/InputLabel/InputLabel';
 import BlickButton from '../components/UI/BlickButton/BlickButton';
 import { useGameStore } from '../store/gameStore';
-import { getDifficultyLevels } from '../utils/getDifficultyLevels';
+import { getDifficultyLevels } from '../utils/difficultLevels/getDifficultyLevels';
 import { useUserStatsStore } from '../store/userStatsStore';
 import { useNavigate } from 'react-router-dom';
 import useSound from 'use-sound';
