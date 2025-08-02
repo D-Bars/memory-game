@@ -26,6 +26,11 @@
 
     @include box(50%, 5%);
     @include flex__box(column, center, center);
+    
+    @media screen and (max-width: 800px) {
+        width: 80%;
+        padding: 3vh 5%;
+    }
 }
 
 .window__title {
@@ -54,5 +59,9 @@
     &:hover {
         transform: scale(1.1);
         outline: 2px solid $color2;
+    }
+
+    @media screen and (max-width: 800px) {
+        padding: 1vh 4vw;
     }
 }

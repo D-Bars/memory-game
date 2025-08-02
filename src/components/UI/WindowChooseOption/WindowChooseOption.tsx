@@ -26,12 +26,12 @@ const WindowChooseOption: FC<WindowChooseOptionArgs> = ({ optionTextArr, title, 
 
   const bodyVariants = {
     visible: {
-      y: 0,
-      transition: { duration: .6 }
+      scale: 1,
+      transition: { duration: .4 }
     },
     hidden: {
-      y: -1000,
-      transition: { duration: .6 }
+      scale: 0,
+      transition: { duration: .4 }
     },
   }
 
