@@ -21,7 +21,7 @@ const GameStatsPanel = () => {
     useEffect(() => {
         if (!isTimerStopped) {
             const timer = setInterval(() => {
-                let newTime = timeInSecondsNum + 1;
+                const newTime = timeInSecondsNum + 1;
                 setTimeInSecondsNum(newTime);
                 setTimeInSecondsStr(formatTime(newTime));
                 return newTime;
