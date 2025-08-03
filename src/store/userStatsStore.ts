@@ -16,7 +16,7 @@ interface userStatsStore {
     loadStats: () => void;
 }
 
-export const useUserStatsStore = create<userStatsStore>((set) => ({
+export const useUserStatsStore = create<userStatsStore>((set, get) => ({
     stats: [],
     nickname: '',
     difficultLevel: '',
@@ -27,23 +27,21 @@ export const useUserStatsStore = create<userStatsStore>((set) => ({
     setAttempts: (attempts) => set({ finalAttempts: attempts }),
     setFinalTime: (time) => set({ finalTime: time }),
     resetStats: () => set({ nickname: '', difficultLevel: '', finalAttempts: 0, finalTime: '00:00:00' }),
-    saveStats: () => set((state) => {
+    saveStats: () => {
         const savedStats = localStorage.getItem('userStats');
 
         const statsArray = savedStats ? JSON.parse(savedStats) : [];
         const newGameStats = {
-            nickname: state.nickname,
-            difficultLevel: state.difficultLevel,
-            finalAttempts: state.finalAttempts,
-            finalTime: state.finalTime
+            nickname: get().nickname,
+            difficultLevel: get().difficultLevel,
+            finalAttempts: get().finalAttempts,
+            finalTime: get().finalTime
         };
 
         statsArray.push(newGameStats);
 
         localStorage.setItem('userStats', JSON.stringify(statsArray));
-
-        return { ...state, stats: statsArray };
-    }),
+    },
     loadStats: () => {
         const savedStats = localStorage.getItem('userStats');
         const statsArray = savedStats ? JSON.parse(savedStats) : [];

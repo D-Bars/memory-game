@@ -9,13 +9,15 @@ import { useModalWindowStore } from "../store/EndGameModalStore";
 import useSound from 'use-sound';
 import effectSoundMatched from '/sounds/effect/matched.mp3';
 import { useMusicPlayerStore } from "../store/musicStore";
+import { useUserStatsStore } from "../store/userStatsStore";
 
 
 export function useGameLogic(cards: Card[], cardCount: number) {
     const [finalCardsArray, setFinalCardsArray] = useState<Card[]>([]);
     const [firstOpenedCard, setFirstOpenedCard] = useState<Card | null>(null);
     const [cardWaiting, setCardWaiting] = useState<boolean>(false);
-    const { pauseTimer } = useGameStore();
+    const { pauseTimer, attempts, timeInSecondsStr } = useGameStore();
+    const { saveStats, setAttempts, setFinalTime } = useUserStatsStore();
     const { setWin } = useModalWindowStore();
     const { setPageNameTrack, setCurrentTrackEl } = useMusicPlayerStore();
 
@@ -51,6 +53,9 @@ export function useGameLogic(cards: Card[], cardCount: number) {
             if (checkGameOver(matchedCards)) {
                 pauseTimer();
                 setWin();
+                setFinalTime(timeInSecondsStr);
+                setAttempts(attempts);
+                saveStats();
                 setPageNameTrack('win');
                 setCurrentTrackEl();
             }
