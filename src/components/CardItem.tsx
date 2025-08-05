@@ -8,7 +8,7 @@ import clickSoundFlip from '/sounds/click/flip__card.mp3';
 interface CardProps {
     card: Card;
     checkCard: (card: Card) => void;
-    isWaiting : boolean;
+    isWaiting: boolean;
 }
 
 const CardItem: FC<CardProps> = ({ card, checkCard, isWaiting }) => {
@@ -24,11 +24,11 @@ const CardItem: FC<CardProps> = ({ card, checkCard, isWaiting }) => {
         checkCard(card);
     };
     return (
-        <div
-            className={clsx(cl.card, { [cl.flipped]: card.isFlipped })}
-            onClick={()=>{handleCardClick(card)}}>
-            <div className={cl.card_front}></div>
-            <img className={cl.card_back} src={card.image} />
+        <div className={cl.card_wrapper} onClick={() => { handleCardClick(card); }}>
+            <div className={clsx(cl.card, { [cl.flipped]: card.isFlipped })}>
+                <div className={cl.card_front}></div>
+                <img className={cl.card_back} src={card.image} />
+            </div>
         </div>
     );
 };
