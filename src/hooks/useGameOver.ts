@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 export const useGameOver = () => {
     const { resetGame } = useGameStore();
-    const { resetStats } = useUserStatsStore();
+    const { resetCurrentStat } = useUserStatsStore();
     const navigate = useNavigate();
 
     return () => {
         resetGame(navigate);
-        resetStats();
+        resetCurrentStat();
     };
 };

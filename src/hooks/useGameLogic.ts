@@ -16,8 +16,8 @@ export function useGameLogic(cards: Card[], cardCount: number) {
     const [finalCardsArray, setFinalCardsArray] = useState<Card[]>([]);
     const [firstOpenedCard, setFirstOpenedCard] = useState<Card | null>(null);
     const [cardWaiting, setCardWaiting] = useState<boolean>(false);
-    const { pauseTimer, attempts, timeInSecondsStr } = useGameStore();
-    const { saveStats, setAttempts, setFinalTime } = useUserStatsStore();
+    const { pauseTimer, timeInSecondsStr, incrementAttempts } = useGameStore();
+    const { saveCurrentStat, setAttempts, setFinalTime } = useUserStatsStore();
     const { setWin } = useModalWindowStore();
     const { setPageNameTrack, setCurrentTrackEl } = useMusicPlayerStore();
 
@@ -34,6 +34,8 @@ export function useGameLogic(cards: Card[], cardCount: number) {
 
     const handleCardClick = (clickedCard: Card) => {
         if (cardWaiting) return;
+        incrementAttempts();
+        const currentAttempts = useGameStore.getState().attempts;
 
         const updatedCards = finalCardsArray.map(cardItem =>
             cardItem.uniqueId === clickedCard.uniqueId ? { ...cardItem, isFlipped: true } : cardItem
@@ -51,11 +53,11 @@ export function useGameLogic(cards: Card[], cardCount: number) {
             setFinalCardsArray(matchedCards);
             setFirstOpenedCard(null);
             if (checkGameOver(matchedCards)) {
+                setFinalTime(timeInSecondsStr);
+                setAttempts(currentAttempts);
+                saveCurrentStat();
                 pauseTimer();
                 setWin();
-                setFinalTime(timeInSecondsStr);
-                setAttempts(attempts);
-                saveStats();
                 setPageNameTrack('win');
                 setCurrentTrackEl();
             }

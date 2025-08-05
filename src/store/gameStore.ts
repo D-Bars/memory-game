@@ -3,8 +3,7 @@ import { Card } from "../types/Card";
 
 interface gameState {
     isGameStart: boolean;
-    savedGameProgress: Card[];
-    cards: Card[];
+    savedGameProgress: Card[];    cards: Card[];
     cardCount: number;
     attempts: number;
     timeInSecondsStr: string;

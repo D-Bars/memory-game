@@ -1,6 +1,5 @@
 import { Card } from "../types/Card";
 import { FC } from "react";
-import { useGameStore } from "../store/gameStore";
 import cl from './styles/CardItem.module.scss';
 import clsx from "clsx";
 import useSound from 'use-sound';
@@ -13,8 +12,6 @@ interface CardProps {
 }
 
 const CardItem: FC<CardProps> = ({ card, checkCard, isWaiting }) => {
-    const { incrementAttempts } = useGameStore();
-
     const [soundFlip] = useSound(clickSoundFlip, {
         volume: 0.6,
         playbackRate: 1.25,
@@ -24,7 +21,6 @@ const CardItem: FC<CardProps> = ({ card, checkCard, isWaiting }) => {
     const handleCardClick = (card: Card) => {
         if (card.isFlipped || card.isMatched || isWaiting) return;
         soundFlip();
-        incrementAttempts();
         checkCard(card);
     };
     return (

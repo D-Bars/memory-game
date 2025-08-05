@@ -24,7 +24,6 @@ function App() {
 
   const setMusicEnabled = (val:boolean) => {
     setIsMusicOn(val);
-    console.log(val)
   }
 
   return (

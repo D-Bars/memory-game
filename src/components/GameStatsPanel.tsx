@@ -6,7 +6,7 @@ import BlickButton from './UI/BlickButton/BlickButton';
 import { useNavigate } from 'react-router-dom';
 
 const GameStatsPanel = () => {
-    const { nickname, difficultLevel } = useUserStatsStore();
+    const { currentStat: { nickname, difficultLevel } } = useUserStatsStore();
     const {
         attempts,
         resetGame,
