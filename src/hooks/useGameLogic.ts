@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card } from "../types/Card";
 import { GenerateCardsArray } from "../utils/cardsArray/GenerateCardsArray";
-import { isPair } from "../utils/checkCardByClick/isPair";
+import { flipAndMatchCards } from "../utils/checkCardByClick/flipAndMatchCards";
 import { resetCards } from "../utils/checkCardByClick/resetCards";
 import { checkGameOver } from "../utils/gameEndings/checkGameOver";
 import { useGameStore } from "../store/gameStore";
@@ -48,7 +48,7 @@ export function useGameLogic(cards: Card[], cardCount: number) {
         }
 
         if (firstOpenedCard.id === clickedCard.id) {
-            const matchedCards = isPair(updatedCards, firstOpenedCard, clickedCard);
+            const matchedCards = flipAndMatchCards(updatedCards, firstOpenedCard, clickedCard);
             soundMatched();
             setFinalCardsArray(matchedCards);
             setFirstOpenedCard(null);
