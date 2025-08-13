@@ -45,25 +45,28 @@ export function useGameLogic() {
     const handleMatch = (cardsArrayAfterFlip: Card[], openedCard: Card, clickedCard: Card) => {
         const matchedCards = flipAndMatchCards(cardsArrayAfterFlip, openedCard, clickedCard);
         soundMatched();
-        setActuallGameCards(matchedCards);
         setFirstOpenedCard(null);
+        setActuallGameCards(matchedCards);
     }
 
     const handleMismatch = (cardsArrayAfterFlip: Card[], openedCard: Card, clickedCard: Card) => {
         setCardWaiting(true);
         setTimeout(() => {
             const reset = resetCards(cardsArrayAfterFlip, openedCard, clickedCard);
+            setFirstOpenedCard(null);
             setActuallGameCards(reset);
             setCardWaiting(false);
-            setFirstOpenedCard(null);
         }, 1000);
     }
 
     const flipCard = (clickedCard: Card): Card[] => {
+        soundFlip();
         const flip = GameProgress.map(cardItem =>
             cardItem.uniqueId === clickedCard.uniqueId ? { ...cardItem, isFlipped: true } : cardItem
         );
-        soundFlip();
+        if (firstOpenedCard === null) {
+            setFirstOpenedCard(clickedCard);
+        }
         setActuallGameCards(flip);
         return flip;
     }
@@ -71,18 +74,14 @@ export function useGameLogic() {
     const handleCardClick = (clickedCard: Card) => {
         if (clickedCard.isFlipped || clickedCard.isMatched || cardWaiting) return;
         const cardsArrayAfterFlip = flipCard(clickedCard);
-        incrementAttempts();
 
-        if (firstOpenedCard === null) {
-            setFirstOpenedCard(clickedCard);
-            return;
-        }
-
-        if (firstOpenedCard.id === clickedCard.id) {
-            handleMatch(cardsArrayAfterFlip, firstOpenedCard, clickedCard);
-
-        } else {
-            handleMismatch(cardsArrayAfterFlip, firstOpenedCard, clickedCard);
+        if (firstOpenedCard) {
+            if (firstOpenedCard.id === clickedCard.id) {
+                handleMatch(cardsArrayAfterFlip, firstOpenedCard, clickedCard);
+            } else {
+                handleMismatch(cardsArrayAfterFlip, firstOpenedCard, clickedCard);
+            }
+            incrementAttempts();
         }
     };
 

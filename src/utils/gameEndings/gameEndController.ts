@@ -13,13 +13,15 @@ export const gameEndController = () => {
         isWin,
         pauseTimer,
         timeInSecondsStr,
-        attempts
+        attempts,
+        removeGameByLocalStorage
     } = useGameStore.getState();
 
     setFinalTime(timeInSecondsStr);
     setAttempts(attempts);
     saveCurrentStat();
     pauseTimer();
+    removeGameByLocalStorage();
     
     if (isGameEnd && isWin) {
         setWin();

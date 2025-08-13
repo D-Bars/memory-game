@@ -2,6 +2,9 @@ import { create } from "zustand";
 import { Card } from "../types/Card";
 import { NavigateFunction } from "react-router-dom";
 import { gameEndController } from "../utils/gameEndings/gameEndController";
+import { saveDataByKey } from "../utils/localStorage/saveDataByKey";
+import { getDataByKey } from "../utils/localStorage/getDataByKey";
+import { removeDataByKey } from "../utils/localStorage/removeDataByKey";
 
 interface gameState {
     isGameStart: boolean;
@@ -26,9 +29,12 @@ interface gameState {
     incrementAttempts: () => void;
     resetGame: (navigate: NavigateFunction) => void;
     pauseTimer: () => void;
+    saveGameToLocalStorage: () => void;
+    loadGameFromLocalStorage: () => void;
+    removeGameByLocalStorage: () => void;
 }
 
-export const useGameStore = create<gameState>((set) => ({
+export const useGameStore = create<gameState>((set, get) => ({
     isGameStart: false,
     GameProgress: [],
     initialCardsArray: [],
@@ -46,12 +52,13 @@ export const useGameStore = create<gameState>((set) => ({
     setInitialCardsArray: (initialCardsArray) => set({ initialCardsArray }),
     setActuallGameCards: (cards) => {
         set({ GameProgress: cards });
-        if(cards.every(card => card.isMatched)){
+        get().saveGameToLocalStorage();
+        if (cards.every(card => card.isMatched)) {
             set({ isWin: true, isGameEnd: true });
             gameEndController();
         }
     },
-    setFirstOpenedCard: (card) => set({firstOpenedCard: card}),
+    setFirstOpenedCard: (card) => set({ firstOpenedCard: card }),
     setCardCount: (count) => set({ cardCount: count }),
     startGame: () => set({ isGameStart: true }),
     incrementAttempts: () => set((state) => ({ attempts: state.attempts + 1 })),
@@ -60,4 +67,26 @@ export const useGameStore = create<gameState>((set) => ({
         navigate("/");
     },
     pauseTimer: () => set({ isTimerStopped: true }),
+    saveGameToLocalStorage: () => {
+        const { GameProgress, firstOpenedCard, attempts, timeInSecondsStr } = get();
+        const savedGame = {
+            GameProgress,
+            firstOpenedCard,
+            attempts,
+            timeInSecondsStr,
+        };
+        saveDataByKey('game', savedGame);
+    },
+    loadGameFromLocalStorage: () => {
+        const savedGame = getDataByKey('game');
+        set({
+            GameProgress: savedGame.GameProgress,
+            firstOpenedCard: savedGame.firstOpenedCard,
+            attempts: savedGame.attempts,
+            timeInSecondsStr: savedGame.timeInSecondsStr,
+        })
+    },
+    removeGameByLocalStorage: () => {
+        removeDataByKey('game');
+    }
 }));
