@@ -3,23 +3,22 @@ import { Card } from "../types/Card";
 import { GenerateCardsArray } from "../utils/cardsArray/GenerateCardsArray";
 import { flipAndMatchCards } from "../utils/checkCardByClick/flipAndMatchCards";
 import { resetCards } from "../utils/checkCardByClick/resetCards";
-import { checkGameOver } from "../utils/gameEndings/checkGameOver";
 import { useGameStore } from "../store/gameStore";
-import { useModalWindowStore } from "../store/EndGameModalStore";
 import useSound from 'use-sound';
 import effectSoundMatched from '/sounds/effect/matched.mp3';
-import { useMusicPlayerStore } from "../store/musicStore";
-import { useUserStatsStore } from "../store/userStatsStore";
+import clickSoundFlip from '/sounds/click/flip__card.mp3';
 
 
-export function useGameLogic(cards: Card[], cardCount: number) {
-    const [finalCardsArray, setFinalCardsArray] = useState<Card[]>([]);
+export function useGameLogic() {
+    const { initialCardsArray, cardCount, setActuallGameCards, incrementAttempts, GameProgress } = useGameStore();
     const [firstOpenedCard, setFirstOpenedCard] = useState<Card | null>(null);
     const [cardWaiting, setCardWaiting] = useState<boolean>(false);
-    const { pauseTimer, timeInSecondsStr, incrementAttempts } = useGameStore();
-    const { saveCurrentStat, setAttempts, setFinalTime } = useUserStatsStore();
-    const { setWin } = useModalWindowStore();
-    const { setPageNameTrack, setCurrentTrackEl } = useMusicPlayerStore();
+
+    const [soundFlip] = useSound(clickSoundFlip, {
+        volume: 0.6,
+        playbackRate: 1.25,
+        interrupt: true,
+    });
 
     const [soundMatched] = useSound(effectSoundMatched, {
         volume: 0.5,
@@ -28,19 +27,40 @@ export function useGameLogic(cards: Card[], cardCount: number) {
     });
 
     useEffect(() => {
-        const cardsArr = GenerateCardsArray(cards, cardCount);
-        setFinalCardsArray(cardsArr);
-    }, [cardCount, cards]);
+        const cardsArr = GenerateCardsArray(initialCardsArray, cardCount);
+        setActuallGameCards(cardsArr);
+    }, [cardCount, initialCardsArray, setActuallGameCards]);
 
-    const handleCardClick = (clickedCard: Card) => {
-        if (cardWaiting) return;
-        incrementAttempts();
-        const currentAttempts = useGameStore.getState().attempts;
+    const handleMatch = (cardsArrayAfterFlip: Card[], openedCard: Card, clickedCard: Card) => {
+        const matchedCards = flipAndMatchCards(cardsArrayAfterFlip, openedCard, clickedCard);
+        soundMatched();
+        setActuallGameCards(matchedCards);
+        setFirstOpenedCard(null);
+    }
 
-        const updatedCards = finalCardsArray.map(cardItem =>
+    const handleMismatch = (cardsArrayAfterFlip: Card[], openedCard: Card, clickedCard: Card) => {
+        setCardWaiting(true);
+        setTimeout(() => {
+            const reset = resetCards(cardsArrayAfterFlip, openedCard, clickedCard);
+            setActuallGameCards(reset);
+            setCardWaiting(false);
+            setFirstOpenedCard(null);
+        }, 1000);
+    }
+
+    const flipCard = (clickedCard: Card): Card[] => {
+        const flip =  GameProgress.map(cardItem =>
             cardItem.uniqueId === clickedCard.uniqueId ? { ...cardItem, isFlipped: true } : cardItem
         );
-        setFinalCardsArray(updatedCards);
+        soundFlip();
+        setActuallGameCards(flip);
+        return flip;
+    }
+
+    const handleCardClick = (clickedCard: Card) => {
+        if (clickedCard.isFlipped || clickedCard.isMatched || cardWaiting) return;
+        const cardsArrayAfterFlip = flipCard(clickedCard);
+        incrementAttempts();
 
         if (firstOpenedCard === null) {
             setFirstOpenedCard(clickedCard);
@@ -48,29 +68,12 @@ export function useGameLogic(cards: Card[], cardCount: number) {
         }
 
         if (firstOpenedCard.id === clickedCard.id) {
-            const matchedCards = flipAndMatchCards(updatedCards, firstOpenedCard, clickedCard);
-            soundMatched();
-            setFinalCardsArray(matchedCards);
-            setFirstOpenedCard(null);
-            if (checkGameOver(matchedCards)) {
-                setFinalTime(timeInSecondsStr);
-                setAttempts(currentAttempts);
-                saveCurrentStat();
-                pauseTimer();
-                setWin();
-                setPageNameTrack('win');
-                setCurrentTrackEl();
-            }
+            handleMatch(cardsArrayAfterFlip, firstOpenedCard, clickedCard);
+
         } else {
-            setCardWaiting(true);
-            setTimeout(() => {
-                const reset = resetCards(updatedCards, firstOpenedCard, clickedCard);
-                setFinalCardsArray(reset);
-                setCardWaiting(false);
-                setFirstOpenedCard(null);
-            }, 1000);
+            handleMismatch(cardsArrayAfterFlip, firstOpenedCard, clickedCard);
         }
     };
 
-    return { finalCardsArray, handleCardClick, cardWaiting };
+    return { GameProgress, handleCardClick };
 }

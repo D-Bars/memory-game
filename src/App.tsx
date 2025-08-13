@@ -9,12 +9,12 @@ import WindowChooseOption from "./components/UI/WindowChooseOption/WindowChooseO
 import { useMusicPlayerStore } from "./store/musicStore";
 
 function App() {
-  const { setCards } = useGameStore();
+  const { setInitialCardsArray } = useGameStore();
   const { setIsMusicOn } = useMusicPlayerStore();
 
   useEffect(() => {
     const cardArray = GenerateImagesCardsArray();
-    setCards(cardArray);
+    setInitialCardsArray(cardArray);
   }, []);
 
   const modalOptions = {
