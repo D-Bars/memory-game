@@ -9,6 +9,7 @@ interface gameState {
     initialCardsArray: Card[];
     isWin: boolean,
     isGameEnd: boolean,
+    firstOpenedCard: Card | null,
     cardCount: number;
     attempts: number;
     timeInSecondsStr: string;
@@ -19,6 +20,7 @@ interface gameState {
     setTimeInSecondsNum: (value: number) => void;
     setInitialCardsArray: (cards: Card[]) => void;
     setActuallGameCards: (cards: Card[]) => void;
+    setFirstOpenedCard: (card: Card | null) => void;
     setCardCount: (count: number) => void;
     startGame: () => void,
     incrementAttempts: () => void;
@@ -32,6 +34,7 @@ export const useGameStore = create<gameState>((set) => ({
     initialCardsArray: [],
     isWin: false,
     isGameEnd: false,
+    firstOpenedCard: null,
     cardCount: 0,
     attempts: 0,
     timeInSecondsStr: '00:00:00',
@@ -48,6 +51,7 @@ export const useGameStore = create<gameState>((set) => ({
             gameEndController();
         }
     },
+    setFirstOpenedCard: (card) => set({firstOpenedCard: card}),
     setCardCount: (count) => set({ cardCount: count }),
     startGame: () => set({ isGameStart: true }),
     incrementAttempts: () => set((state) => ({ attempts: state.attempts + 1 })),

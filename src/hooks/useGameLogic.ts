@@ -10,8 +10,15 @@ import clickSoundFlip from '/sounds/click/flip__card.mp3';
 
 
 export function useGameLogic() {
-    const { initialCardsArray, cardCount, setActuallGameCards, incrementAttempts, GameProgress } = useGameStore();
-    const [firstOpenedCard, setFirstOpenedCard] = useState<Card | null>(null);
+    const {
+        initialCardsArray,
+        cardCount,
+        setActuallGameCards,
+        incrementAttempts,
+        GameProgress,
+        firstOpenedCard,
+        setFirstOpenedCard
+    } = useGameStore();
     const [cardWaiting, setCardWaiting] = useState<boolean>(false);
 
     const [soundFlip] = useSound(clickSoundFlip, {
@@ -27,8 +34,12 @@ export function useGameLogic() {
     });
 
     useEffect(() => {
-        const cardsArr = GenerateCardsArray(initialCardsArray, cardCount);
-        setActuallGameCards(cardsArr);
+        if (GameProgress.length) {
+            setActuallGameCards(GameProgress);
+        } else {
+            const cardsArr = GenerateCardsArray(initialCardsArray, cardCount);
+            setActuallGameCards(cardsArr);
+        }
     }, [cardCount, initialCardsArray, setActuallGameCards]);
 
     const handleMatch = (cardsArrayAfterFlip: Card[], openedCard: Card, clickedCard: Card) => {
@@ -49,7 +60,7 @@ export function useGameLogic() {
     }
 
     const flipCard = (clickedCard: Card): Card[] => {
-        const flip =  GameProgress.map(cardItem =>
+        const flip = GameProgress.map(cardItem =>
             cardItem.uniqueId === clickedCard.uniqueId ? { ...cardItem, isFlipped: true } : cardItem
         );
         soundFlip();
