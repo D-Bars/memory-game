@@ -53,7 +53,6 @@ export function useGameLogic() {
 
     const handleMismatch = (cardsArrayAfterFlip: Card[], openedCard: Card, clickedCard: Card) => {
         setCardWaiting(true);
-        // addMismatchedCards(openedCard, clickedCard);
         setTimeout(() => {
             const reset = resetCards(cardsArrayAfterFlip, openedCard, clickedCard);
             setFirstOpenedCard(null);
