@@ -17,7 +17,9 @@ export function useGameLogic() {
         incrementAttempts,
         GameProgress,
         firstOpenedCard,
-        setFirstOpenedCard
+        setFirstOpenedCard,
+        addMismatchedCards,
+        clearMismatchedCards
     } = useGameStore();
     const [cardWaiting, setCardWaiting] = useState<boolean>(false);
 
@@ -51,12 +53,14 @@ export function useGameLogic() {
 
     const handleMismatch = (cardsArrayAfterFlip: Card[], openedCard: Card, clickedCard: Card) => {
         setCardWaiting(true);
+        // addMismatchedCards(openedCard, clickedCard);
         setTimeout(() => {
             const reset = resetCards(cardsArrayAfterFlip, openedCard, clickedCard);
             setFirstOpenedCard(null);
             setActuallGameCards(reset);
+            clearMismatchedCards();
             setCardWaiting(false);
-        }, 1000);
+        }, 800);
     }
 
     const flipCard = (clickedCard: Card): Card[] => {
@@ -64,10 +68,10 @@ export function useGameLogic() {
         const flip = GameProgress.map(cardItem =>
             cardItem.uniqueId === clickedCard.uniqueId ? { ...cardItem, isFlipped: true } : cardItem
         );
+        setActuallGameCards(flip);
         if (firstOpenedCard === null) {
             setFirstOpenedCard(clickedCard);
         }
-        setActuallGameCards(flip);
         return flip;
     }
 
@@ -76,14 +80,16 @@ export function useGameLogic() {
         const cardsArrayAfterFlip = flipCard(clickedCard);
 
         if (firstOpenedCard) {
+            incrementAttempts();
             if (firstOpenedCard.id === clickedCard.id) {
                 handleMatch(cardsArrayAfterFlip, firstOpenedCard, clickedCard);
             } else {
+                addMismatchedCards(firstOpenedCard, clickedCard);
                 handleMismatch(cardsArrayAfterFlip, firstOpenedCard, clickedCard);
             }
-            incrementAttempts();
         }
+        useGameStore.getState().saveGameToLocalStorage();
     };
 
-    return { GameProgress, handleCardClick };
+    return { GameProgress, handleCardClick, handleMismatch };
 }

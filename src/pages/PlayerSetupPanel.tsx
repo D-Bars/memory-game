@@ -15,22 +15,22 @@ const PlayerSetupPanel = () => {
     const [userNickname, setUserNickname] = useState<string>('');
     const [level, setLevel] = useState<string>('');
     const [selectedCardCount, setSelectedCardCount] = useState<number>(0);
-    const { startGame, setCardCount } = useGameStore();
+    const { startGame, setCardCount, removeGameByLocalStorage } = useGameStore();
     const navigate = useNavigate();
 
-    const { setPageNameTrack, setCurrentTrackEl, isMusicOn} = useMusicPlayerStore();
+    const { setPageNameTrack, setCurrentTrackEl, isMusicOn } = useMusicPlayerStore();
 
     useEffect(() => {
         setPageNameTrack('setup');
         setCurrentTrackEl();
     }, [isMusicOn]);
-    
+
     const [soundStone] = useSound(clickSoundStone, {
         volume: 0.1,
         playbackRate: 1.25,
         interrupt: true,
     });
-    
+
     const chosenLevel = (userLevel: string, count: number) => {
         soundStone();
         setLevel(userLevel);
@@ -38,6 +38,9 @@ const PlayerSetupPanel = () => {
     }
 
     const handleStart = () => {
+        if (localStorage.getItem('game')) {
+            removeGameByLocalStorage();
+        }
         useUserStatsStore.getState().setNickname(userNickname);
         useUserStatsStore.getState().setDifficultLevel(level);
         setCardCount(selectedCardCount);

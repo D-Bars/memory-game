@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import PlayerSetupPanel from "./pages/PlayerSetupPanel"
 import { useGameStore } from "./store/gameStore";
 import { GenerateImagesCardsArray } from "./utils/cardsArray/GenerateImagesCardsArray"
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import StatisticsPage from "./pages/StatisticsPage";
 import GamePage from "./pages/GamePage";
 import WindowChooseOption from "./components/UI/WindowChooseOption/WindowChooseOption"
@@ -11,6 +11,15 @@ import { useMusicPlayerStore } from "./store/musicStore";
 function App() {
   const { setInitialCardsArray } = useGameStore();
   const { setIsMusicOn } = useMusicPlayerStore();
+
+  const { loadGameFromLocalStorage } = useGameStore();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem('game')) {
+      loadGameFromLocalStorage();
+      navigate('/game');
+    }
+  }, []);
 
   useEffect(() => {
     const cardArray = GenerateImagesCardsArray();
